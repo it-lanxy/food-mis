@@ -1,0 +1,24 @@
+version: v1
+common:
+  tools:
+    oracle-jdk: 8
+build:
+  tools:
+    maven: 3.3.3 # Plus目前支持3.3.3(实际是3.3.9)和3.2.1
+  run:
+    workDir: ./       # 构建命令时的工作目录 (默认值为代码仓库的根路径)
+    cmd:
+      - sh food-mis-web/deploy/compile.sh
+  target:
+    distDir: ./food-mis-web/target/ # 打包目录
+    files:          # 需要打包的文件列表
+      - ./*.war
+      - ../deploy
+autodeploy:
+    targetDir: /opt/meituan/meishi/food-mis-web/ # 部署目录
+    env:
+    APP_NAME : com.sankuai.web.foodmis.web # AppKey
+    run: sh deploy/run.sh
+    check: sh deploy/check.sh
+    checkRetry: 15
+    checkInterval: 30s

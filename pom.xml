@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.meituan.trade</groupId>
+    <artifactId>food-mis</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <modules>
+        <module>food-mis-web</module>
+        <module>food-mis-service</module>
+        <module>food-mis-repository</module>
+        <module>food-mis-model</module>
+        <module>food-mis-client</module>
+    </modules>
+    <properties>
+        <java.src.version>1.8</java.src.version>
+        <java.target.version>1.8</java.target.version>
+        <project.encoding>UTF-8</project.encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <repo.internal.snapshots.url>http://maven.sankuai.com/nexus/content/repositories/snapshots/</repo.internal.snapshots.url>
+        <repo.internal.releases.url>http://maven.sankuai.com/nexus/content/repositories/releases/</repo.internal.releases.url>
+
+        <food-mis-model-version>1.0.0-SNAPSHOT</food-mis-model-version>
+        <food-mis-service-version>1.0.0-SNAPSHOT</food-mis-service-version>
+        <food-mis-repository-version>1.0.0-SNAPSHOT</food-mis-repository-version>
+        <food-mis-client-version>1.0.0-SNAPSHOT</food-mis-client-version>
+
+        <spring-framework-bom-version>5.0.6.RELEASE</spring-framework-bom-version>
+        <junit-version>4.12</junit-version>
+        <mockito-all-version>1.9.5</mockito-all-version>
+        <lombok-version>1.18.4</lombok-version>
+        <mapstruct-version>1.2.0.Final</mapstruct-version>
+        <slf4j-api-version>1.7.25</slf4j-api-version>
+        <slf4j-impl-version>2.11.0</slf4j-impl-version>
+        <servlet-api-version>3.0</servlet-api-version>
+        <thymeleaf-version>3.0.11.RELEASE</thymeleaf-version>
+        <sso-version>2.1.23</sso-version>
+        <uac-version>1.0.7</uac-version>
+        <httpcomponents-httpclient-version>4.5.2</httpcomponents-httpclient-version>
+        <httpcomponents-core-version>4.4.4</httpcomponents-core-version>
+        <env>test</env>
+    </properties>
+    <parent>
+        <groupId>com.sankuai</groupId>
+        <artifactId>inf-bom</artifactId>
+        <version>1.3.9.5</version>
+    </parent>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring-framework-bom-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--trade customer start-->
+            <dependency>
+                <groupId>com.meituan.trade</groupId>
+                <artifactId>food-mis-model</artifactId>
+                <version>${food-mis-model-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.meituan.trade</groupId>
+                <artifactId>food-mis-service</artifactId>
+                <version>${food-mis-service-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.meituan.trade</groupId>
+                <artifactId>food-mis-repository</artifactId>
+                <version>${food-mis-repository-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.meituan.trade</groupId>
+                <artifactId>food-mis-client</artifactId>
+                <version>${food-mis-client-version}</version>
+            </dependency>
+            <!--trade customer end-->
+            <!--test start-->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito-all-version}</version>
+            </dependency>
+            <!--test end-->
+            <!--lombok start-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok-version}</version>
+            </dependency>
+            <!--lombok end-->
+            <!--map struct start-->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct-version}</version>
+            </dependency>
+            <!--map struct end-->
+            <!--slf4j start-->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${slf4j-impl-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${slf4j-impl-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${slf4j-impl-version}</version>
+            </dependency>
+            <!--slf4j end-->
+            <!--servlet-api start-->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet-api-version}</version>
+            </dependency>
+            <!--servlet-api end-->
+            <!-- thymeleaf start-->
+            <dependency>
+                <groupId>org.thymeleaf</groupId>
+                <artifactId>thymeleaf</artifactId>
+                <version>${thymeleaf-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.thymeleaf</groupId>
+                <artifactId>thymeleaf-spring5</artifactId>
+                <version>${thymeleaf-version}</version>
+            </dependency>
+            <!-- thymeleaf end -->
+            <!-- sso & uac start -->
+            <dependency>
+                <groupId>com.sankuai.it.sso</groupId>
+                <artifactId>sso-java-sdk</artifactId>
+                <version>${sso-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.sankuai.meituan</groupId>
+                <artifactId>uac-common-sdk</artifactId>
+                <version>${uac-version}</version>
+            </dependency>
+            <!--sso 需要的版本-->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${httpcomponents-core-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpcomponents-httpclient-version}</version>
+            </dependency>
+            <!-- sso & upm end -->
+            <dependency>
+                <groupId>com.sankuai.mms</groupId>
+                <artifactId>mms-boot-jetty9</artifactId>
+                <version>1.3.3</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>${java.src.version}</source>
+                    <target>${java.target.version}</target>
+                    <encoding>${project.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <warName>${project.artifactId}-${env}-${project.version}</warName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>meituan-nexus-releases</id>
+            <name>Meituan Nexus Repository</name>
+            <url>${repo.internal.releases.url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>meituan-nexus-snapshots</id>
+            <name>Meituan Nexus Repository</name>
+            <url>${repo.internal.snapshots.url}</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <developers>
+        <developer>
+            <id>Lansing</id>
+            <name>lanxinyu</name>
+            <email>lanxinyu@meituan.com</email>
+        </developer>
+    </developers>
+</project>

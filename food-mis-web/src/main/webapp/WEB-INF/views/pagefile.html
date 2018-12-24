@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Spring Thyme Seed Starter Manager</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="/static/layui/css/layui.css" th:href="@{/static/layui/css/layui.css}"/>
+</head>
+<body>
+
+<!--图片不为空，渲染图片-->
+<div th:unless="${#strings.isEmpty(picture)}">
+    <img alt="Biz logo" title="Biz logo"
+         th:src="${picture}" alt-title="图片丢了~"/>
+</div>
+
+<div th:unless="${pageFile == null}">
+    <!--pageFile代表整个页面，描述不为空，渲染页面描述-->
+    <div th:unless="${#strings.isEmpty(pageFile.description)}">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend><div th:text="${pageFile.description}"></div></legend>
+        </fieldset>
+    </div>
+
+    <!--subPageFiles中存放各种组件，组件不为空，渲染组件-->
+    <div th:unless="${#lists.isEmpty(pageFile.subPageFiles)}" th:each="subPageFile : ${pageFile.subPageFiles}">
+
+        <!--subPageFile代表一个子页面，描述不为空，渲染子页面描述-->
+        <div th:unless="${#strings.isEmpty(subPageFile.description)}">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend><div th:text="${subPageFile.description}"></div></legend>
+            </fieldset>
+        </div>
+        <!--页面整体的渲染顺序：1查询栏 2子项 3列表-->
+        <!--渲染查询栏-->
+        <div th:unless="${#lists.isEmpty(subPageFile.searchBars)}" th:each="searchBar : ${subPageFile.searchBars}">
+
+            <!--查询栏描述-->
+            <div th:unless="${#strings.isEmpty(searchBar.description)}">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend><div th:text="${searchBar.description}"></div></legend>
+                </fieldset>
+            </div>
+            <!--查询栏渲染-->
+            <form class="layui-form" action="#" th:action="@{/foodmis}" th:object="${manualRequest}" method="post">
+                <div class="layui-form-item">
+                    <div th:each="searchTerm : ${searchBar.searchTerms}" class="layui-inline">
+                        <div th:switch="${searchTerm.fieldType.name()}">
+                            <div th:case="'TEXT'">
+                                <label class="layui-form-label" th:text="${searchTerm.value}"></label>
+                                <div class="layui-input-inline">
+                                    <input type="text" th:name="${searchTerm.key}" class="layui-input" autocomplete="off" th:placeholder="${searchTerm.placeholder}">
+                                </div>
+                            </div>
+                            <div th:case="'DATE'">
+                                <label class="layui-form-label" th:text="${searchTerm.value}"></label>
+                                <div class="layui-input-inline">
+                                    <input type="text" th:name="${searchTerm.key}" th:id="${searchTerm.key}" class="layui-input" autocomplete="off" th:placeholder="${searchTerm.placeholder}">
+                                </div>
+                            </div>
+                            <div th:case="'ENUM'">
+                                <label class="layui-form-label"  th:text="${searchTerm.value}"></label>
+                                <div class="layui-input-inline">
+                                    <select th:name="${searchTerm.key}">
+                                        <option th:each="entry : ${searchTerm.enumKV.entrySet()}" th:value="${entry.key}" th:text="${entry.value}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <div th:case="'HIDE'">
+                                <input type="hidden" th:name="${searchTerm.key}" class="layui-input" autocomplete="off" th:value="${searchTerm.value}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button type="submit" name="list" class="layui-btn" >查询</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--渲染 子项-->
+        <div th:unless="${#lists.isEmpty(subPageFile.items)}" th:each="item : ${subPageFile.items}">
+
+            <!--子项集合描述-->
+            <div th:unless="${#strings.isEmpty(item.description)}">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend><div th:text="${item.description}"></div></legend>
+                </fieldset>
+            </div>
+            <!--查询栏渲染-->
+            <div class="layui-form-item">
+                <div th:each="subItem : ${item.subItems}" class="layui-inline">
+                    <div th:switch="${subItem.fieldType.name()}">
+                        <div th:case="'COMMON'">
+                            <label class="layui-form-label" th:text="${subItem.key}"></label>
+                            <div class="layui-input-inline">
+                                <input type="text" th:name="${subItem.key}" class="layui-btn layui-btn-disabled" autocomplete="off" th:placeholder="${subItem.value}">
+                            </div>
+                        </div>
+                        <div th:case="'URL'">
+                            <label class="layui-form-label" th:text="${subItem.key}"></label>
+                            <a class="layui-btn layui-btn-primary layui-btn-radius" th:href="${'/foodmis' + subItem.url}" th:text="${subItem.value}"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--渲染 表单-->
+        <div th:unless="${#lists.isEmpty(subPageFile.tables)}" th:each="table : ${subPageFile.tables}">
+
+            <!--表单描述-->
+            <div th:unless="${#strings.isEmpty(table.description)}">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend><div th:text="${table.description}"></div></legend>
+                </fieldset>
+            </div>
+            <div th:unless="${table.columnNames == null}">
+
+                <table class="layui-table" lay-even="" lay-skin="row">
+                    <thead>
+                    <tr>
+                        <!--渲染列名-->
+                        <td th:each="cell : ${table.columnNames.cells}">
+                            <div th:text="${cell.value}"></div>
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--渲染数据-->
+                        <tr th:each="rowData : ${table.data}">
+                            <td th:each="cell : ${rowData.cells}">
+                                <div th:switch="${cell.fieldType.name()}">
+                                    <div th:case="'COMMON'">
+                                        <div th:text="${cell.value}"></div>
+                                    </div>
+                                    <div th:case="'URL'">
+                                        <a class="layui-btn layui-btn-primary layui-btn-radius" th:href="${'/foodmis' + cell.url}" th:text="${cell.value}"></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#beginTime'
+        });
+        laydate.render({
+            elem: '#endTime'
+        });
+    });
+</script>
+</body>
+</html>
